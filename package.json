@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "firebase": "^8.10.1"
+  },
+  "name": "myfinanceapi",
+  "version": "1.0.0",
+  "description": "A simple REST API using Node.js with Express for tracking users, income, and expenses",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cindy2536/MyFinanceAPI.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cindy2536/MyFinanceAPI/issues"
+  },
+  "homepage": "https://github.com/cindy2536/MyFinanceAPI#readme"
+}
