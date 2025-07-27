@@ -7,7 +7,7 @@ const expenseRoutes = require("./routes/expense");
 const incomeRoutes = require("./routes/income");
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 
 // Middleware to parse incoming JSON requests
@@ -50,17 +50,3 @@ app.get("/", (req, res) => {
 app.listen(port, () => {
   console.log(`Now is running on port ${port}`);
 });
-
-
-
-
-
-// 用户相关路由
-// app.use("/users", userRoutes);
-
-// TODO: incomeRoutes 和 expenseRoutes 后续添加
-// app.use("/income", incomeRoutes);
-// app.use("/expenses", expenseRoutes);
-
-
-
