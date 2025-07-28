@@ -6,15 +6,17 @@ const db = require("../config/firebase");
 // GET /users - Retrieve all users
 exports.getAllUsers = async (req, res) => {
   try {
+    //Fetch data from the "users" node in Firebase Realtime Database
     const snapshot = await db.ref("users").once("value");
     const userdata = snapshot.val();
 
-    //Check whether the userdata exists    
+    //Check whether any user data exists    
     if (!userdata) {
+      // If no users found, respond with 404 Not Found
       return res.status(404).send("No users found!");
     }
 
-    // only get value ,ignore key
+    // Extract only the user objects, ignoring the keys
     const userList = Object.values(userdata);
     res.json(userList);
   } catch (error) {
@@ -32,10 +34,10 @@ exports.addUser = async (req, res) => {
       return res.status(400).send("One or more parameters are missing.");
     }
 
-    //get current all users
+    //Fetch existing users to calculate next ID
     const snapshot = await db.ref("users").once("value");
     const userdata = snapshot.val() || {};
-    //calculate the next id    
+    //Calculate next user id  
     const nextId = Object.keys(userdata).length + 1;
 
     //Add new user
@@ -46,7 +48,7 @@ exports.addUser = async (req, res) => {
         email, 
         address 
     };
-
+    
     const newUserRef = db.ref("users").push(); //Generate a unique ID
     await newUserRef.set(newUser);   //write data
 

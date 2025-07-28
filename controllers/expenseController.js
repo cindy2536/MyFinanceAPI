@@ -6,13 +6,14 @@ const db = require("../config/firebase");
 // GET /expense - Retrieve all expense data
 exports.getAllExpense = async (req, res) => {
   try {
+    // Fetch data from the expense node in Firebase
     const snapshot = await db.ref("expense").once("value");
     const expenseData = snapshot.val();
 
     if (!expenseData) {
       return res.status(404).send("No expense data found!");
     }
-
+    // Extract only expense objects, ignoring Firebase keys
     const expenseList = Object.values(expenseData);
     res.json(expenseList);
   } catch (error) {
@@ -43,7 +44,7 @@ exports.addExpense = async (req, res) => {
       Utilities,
       Personal
     };
-
+     // Add new expense data
     await db.ref("expense").push(newExpense);
 
     res.status(201).json({

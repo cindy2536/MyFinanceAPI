@@ -6,15 +6,16 @@ const db = require("../config/firebase");
 // GET /income - Retrieve all income data
 exports.getAllIncome = async (req, res) => {
   try {
+    // Fetch data from income node in Firebase
     const snapshot = await db.ref("income").once("value");
     const incomeData = snapshot.val();
 
-    //Check whether the income exists   
+    //Check whether any income data exists   
     if (!incomeData) {
       return res.status(404).send("No income data found!");
     }
 
-    // only get value ,ignore key
+    //Extract only income objects, ignoring Firebase keys
     const incomeList = Object.values(incomeData);
     res.json(incomeList);
   } catch (error) {
@@ -26,11 +27,11 @@ exports.getAllIncome = async (req, res) => {
 exports.addIncome = async (req, res) => {
   try {
     const { wages, "secondary income": secondaryIncome, Interest, "support payment": supportPayment, others } = req.body;
-
+    // Validate that all required income fields are provided
     if (!wages || !secondaryIncome || !Interest || !supportPayment || !others) {
       return res.status(400).send("One or more income fields are missing.");
     }
-
+    // Fetch existing income data
     const snapshot = await db.ref("income").once("value");
     const incomeData = snapshot.val() || {};
 
@@ -44,7 +45,7 @@ exports.addIncome = async (req, res) => {
       "support payment": supportPayment,
       others
     };
-
+    // Add new income data under income node with a unique key
     await db.ref("income").push(newIncome);
 
     res.status(201).json({
@@ -59,12 +60,13 @@ exports.addIncome = async (req, res) => {
 // PUT /income/:id - Update an existing income data
 exports.updateIncome = async (req, res) => {
   try {
+    // Parse income ID from URL parameters
     const incomeId = parseInt(req.params.id);
     const { wages, "secondary income": secondaryIncome, Interest, "support payment": supportPayment, others } = req.body;
 
     const snapshot = await db.ref("income").once("value");
     const incomeData = snapshot.val();
-
+    // Find the Firebase key for the incomedata matching the target id
     let incomeKey = null;
     for (const [key, income] of Object.entries(incomeData)) {
       if (income.id === incomeId) {
@@ -76,9 +78,9 @@ exports.updateIncome = async (req, res) => {
     if (!incomeKey) {
       return res.status(400).send(`Income data with ID ${incomeId} not found.`);
     }
-
+    // Merge existing data with new updates
     const updatedIncome = {
-      ...incomeData[incomeKey],
+      ...incomeData[incomeKey],   //Expand all key-value pairs within this object
       wages: wages || incomeData[incomeKey].wages,
       "secondary income": secondaryIncome || incomeData[incomeKey]["secondary income"],
       Interest: Interest || incomeData[incomeKey].Interest,

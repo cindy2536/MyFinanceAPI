@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MyFinanceAPI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.5;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    h2 {
+      margin-top: 20px;
+      color: #34495e;
+    }
+    a {
+      color: #2980b9;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to MyFinanceAPI</h1>
+  <p>This is a simple REST API using <b>Node.js</b> with <b>Express</b> for tracking users, income, and expenses.</p>
+
+  <h2>Root Endpoint</h2>
+    <ul>
+        <li>GET /: A brief description of the REST API and Available Endpoints</li>
+    </ul>
+
+  <h2>Users Endpoint</h2>
+    <ul>
+      <li>GET <a href="/users" target="_blank">/users</a> - Retrieve all users</li>
+      <li>POST /users - Add a new user</li>
+      <li>PUT /users/:id - Update an existing user by ID</li>
+      <li>DELETE /users/:id - Delete a user by ID</li>
+    </ul>
+
+  <h2>Expense Endpoint</h2>
+    <ul>
+      <li>GET <a href="/expense" target="_blank">/expenses</a> - Retrieve all expenses</li>
+      <li>POST /expenses - Add a new expense</li>
+      <li>PUT /expenses/:id - Update an existing expense by ID</li>
+      <li>DELETE /expenses/:id - Delete an expense by ID</li>
+    </ul>
+
+  <h2>Income Endpoint</h2>
+    <ul>
+      <li>GET <a href="/income" target="_blank">/income</a> - Retrieve all income</li>
+      <li>POST /income - Add a new income</li>
+      <li>PUT /income/:id - Update an existing income by ID</li>
+      <li>DELETE /income/:id - Delete an income by ID</li>
+    </ul>
+</body>
+</html>
