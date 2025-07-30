@@ -38,7 +38,13 @@ exports.addUser = async (req, res) => {
     const snapshot = await db.ref("users").once("value");
     const userdata = snapshot.val() || {};
     //Calculate next user id  
-    const nextId = Object.keys(userdata).length + 1;
+    let maxId = 0;
+    for (const user of Object.values(userdata)) {
+      if (user.id > maxId) {
+        maxId = user.id;
+      }
+    }
+    const nextId = maxId + 1;
 
     //Add new user
     const newUser = { 
@@ -65,17 +71,17 @@ exports.addUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
   try {
 
-    //get id from the URL parameter of the request
+    //Get id from the URL parameter of the request
     //Parse the id of string type to an integer
     const userId = parseInt(req.params.id); 
     const { name, username, email, address } = req.body;
 
-    // check whether the necessary fields are provided
+    // Check whether the necessary fields are provided
     if (!name && !username && !email && !address) {
       return res.status(400).send("No data to update.");
     }
 
-    // get current all users
+    // //Fetch existing users
     const snapshot = await db.ref("users").once("value");
     const userdata = snapshot.val();
     
@@ -93,7 +99,7 @@ exports.updateUser = async (req, res) => {
     if (!userKey) {
       return res.status(400).send(`User with ID ${userId} not found.`);
     }
-    //update the user data
+    //Merge the existing user data with new updates
     const updatedUser = {
       ...userdata[userKey],
       name: name || userdata[userKey].name,
@@ -116,15 +122,17 @@ exports.updateUser = async (req, res) => {
 // DELETE /users/:id - Delete a user by ID
 exports.deleteUser = async (req, res) => {
   try {
+    // Parse user ID from URL parameters
     const userId = parseInt(req.params.id);
 
+    // Fetch all users
     const snapshot = await db.ref("users").once("value");
     const userdata = snapshot.val();
 
     if (!userdata) {
       return res.status(400).send("No users found.");
     }
-
+    // Find the Firebase key of the user to delete
     let userKey = null;
     for (const [key, user] of Object.entries(userdata)) {
       if (user.id === userId) {
@@ -132,11 +140,12 @@ exports.deleteUser = async (req, res) => {
         break;
       }
     }
-
+    //If user not found, respond with 400
     if (!userKey) {
       return res.status(400).send(`User with ID ${userId} not found.`);
     }
 
+    // Remove the user from Firebase database
     await db.ref(`users/${userKey}`).remove();
 
     res.status(201).json({

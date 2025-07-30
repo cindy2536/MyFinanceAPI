@@ -35,7 +35,14 @@ exports.addIncome = async (req, res) => {
     const snapshot = await db.ref("income").once("value");
     const incomeData = snapshot.val() || {};
 
-    const nextId = Object.keys(incomeData).length + 1;
+    //Calculate the nextID
+    let maxId = 0;
+    for (const user of Object.values(userdata)) {
+      if (user.id > maxId) {
+        maxId = user.id;
+      }
+    }
+    const nextId = maxId + 1;
 
     const newIncome = {
       id: nextId,

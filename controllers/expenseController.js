@@ -33,7 +33,14 @@ exports.addExpense = async (req, res) => {
     const snapshot = await db.ref("expense").once("value");
     const expenseData = snapshot.val() || {};
     
-    const nextId = Object.keys(expenseData).length + 1;
+    //Calculate the nextID
+    let maxId = 0;
+    for (const user of Object.values(userdata)) {
+      if (user.id > maxId) {
+        maxId = user.id;
+      }
+    }
+    const nextId = maxId + 1;
 
     const newExpense = {
       id: nextId,
