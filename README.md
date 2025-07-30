@@ -113,23 +113,23 @@ Important: Never commit or share your .env file publicly.
 
 > Use any terminal (e.g., Git Bash, PowerShell, or VS Code Terminal)
 
-# 1. Clone the repository
+### 1. Clone the repository
 ```bash
 git clone https://github.com/cindy2536/MyFinanceAPI.git
 ```
-# 2. Navigate into the project folder
+### 2. Navigate into the project folder
 ```bash
 cd MyFinanceAPI
 ```
-# 3. Install dependencies
+### 3. Install dependencies
 ```bash
 npm install
 ```
-# 4. Initialize Firebase Database with Sample Data
+### 4. Initialize Firebase Database with Sample Data
 ```bash
 node initialdata.js
 ```
-# 5. Start the server
+### 5. Start the server
 ```bash
 node index.js  
 ```
