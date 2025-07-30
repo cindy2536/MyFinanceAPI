@@ -37,9 +37,9 @@ exports.addIncome = async (req, res) => {
 
     //Calculate the nextID
     let maxId = 0;
-    for (const user of Object.values(userdata)) {
-      if (user.id > maxId) {
-        maxId = user.id;
+    for (const income of Object.values(incomeData)) {
+      if (income.id > maxId) {
+        maxId = income.id;
       }
     }
     const nextId = maxId + 1;

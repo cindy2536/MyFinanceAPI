@@ -35,9 +35,9 @@ exports.addExpense = async (req, res) => {
     
     //Calculate the nextID
     let maxId = 0;
-    for (const user of Object.values(userdata)) {
-      if (user.id > maxId) {
-        maxId = user.id;
+    for (const expense of Object.values(expenseData)) {
+      if (expense.id > maxId) {
+        maxId = expense.id;
       }
     }
     const nextId = maxId + 1;
